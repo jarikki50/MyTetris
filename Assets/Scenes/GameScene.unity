@@ -4591,7 +4591,7 @@ GameObject:
   - component: {fileID: 592655659}
   - component: {fileID: 592655658}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Sky
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

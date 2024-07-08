@@ -12,15 +12,9 @@ public class Map : MonoBehaviour
     public bool[,] tileExist = new bool[22,10];
     //블럭 조작기 참조 변수
     private BlockController controller;
-    //블럭 생성기 참조 변수
-    private BlockSpawner spawner;
-    //생성된 블럭 리스트 참조 변수
-    //public List<GameObject> blockList;
     void Start()
     {
         controller = GameObject.Find("GameManager").gameObject.GetComponent<BlockController>();
-        spawner = GameObject.Find("GameManager").gameObject.GetComponent<BlockSpawner>();
-        //blockList = spawner.blockList;
         for (int i = 0; i < tileExist.GetLength(0); i++)
         {
             for(int j = 0; j < tileExist.GetLength(1); j++)
@@ -68,7 +62,7 @@ public class Map : MonoBehaviour
             tileExist[tilePos[i, 1], tilePos[i, 0]] = true;
         }
     }
-    // 블럭 이동 시 맵(배열)에 블럭의 위치 저장하는 메서드
+    // 블럭 이동 시 맵(배열)에 블럭의 위치 저장
     public void TilePosUpdate(GameObject block)
     {
         //이동하는 블럭의 블럭 클래스 참조
@@ -114,31 +108,4 @@ public class Map : MonoBehaviour
         }
 
     }
-    //라인 한 줄이 가득 채워졌는 지 확인하는 메서드
-    /*public void CheckIsLineFull()
-    {
-        for (int i = 0; i < tileExist.GetLength(0); i++)
-        {
-            int column = 0;
-            for (int j = 0; j < tileExist.GetLength(1); j++)
-            {
-                //해당 행의 열 개수 카운트
-                if (tileExist[i, j]) column++;
-            }
-            //해당 행의 열 개수가 10이면 한 줄 완성
-            if (column == 10) DeleteFullLine(i);
-        }
-    }
-    //한 줄 완성 시 해당 행 클리어
-    private void DeleteFullLine(int rowNum)
-    {
-        foreach (GameObject block in blockList)
-        {
-            Debug.Log("=============");
-            Debug.Log(block.name);
-            Debug.Log("=============");
-        }
-        //완성된 줄들이 클리어 되면 블럭이 스폰 가능하게 함
-        spawner.canSpawn = true;
-    }*/
 }

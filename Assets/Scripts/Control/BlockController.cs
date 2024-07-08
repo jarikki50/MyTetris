@@ -89,10 +89,9 @@ public class BlockController : MonoBehaviour
         }
         if (needToStop)
         {
-            //needToStop이 참이 되면 블럭이 떨어지지 못하게 함
+            //needToStop이 참이 되면 블럭 스폰 가능하게 하고 블럭이 떨어지지 못하게 함
             blockData.falling = false;
-            //클리어 가능한 줄 체크 메서드 호출
-            //map.CheckIsLineFull();
+            spawner.canSpawn = true;
         }
     }
 

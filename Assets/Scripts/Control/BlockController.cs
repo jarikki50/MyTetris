@@ -6,6 +6,8 @@ using UnityEngine;
     블럭 상하좌우 이동*/
 public class BlockController : MonoBehaviour
 {
+    //하강 중지 여부 변수
+    bool needToStop = false;
     //현재 활성화된 블럭 참조 변수
     private GameObject activatedBlock;
     //현재 활성화된 블럭의 블럭 클래스 참조 변수
@@ -24,7 +26,7 @@ public class BlockController : MonoBehaviour
     void Update()
     {
         //현재 활성화된 블럭 오브젝트 할당
-        activatedBlock = GameObject.Find("GameManager").GetComponent<BlockSpawner>().activatedBlock;
+        activatedBlock = spawner.activatedBlock;
         if (activatedBlock != null)
         {
             blockData = activatedBlock.GetComponent<Block>();
@@ -61,16 +63,16 @@ public class BlockController : MonoBehaviour
         }
     }
     //블럭 이동 가능 확인 메서드
-    public void checkCanMove()
+    public void CheckCanMove()
     {
         //needToStop이 true일 시 블럭이 바닥에 있는 것이고 이동을 중지한다.
-        checkCanFall();
-        checkCanMoveSide();
+        CheckCanFall();
+        CheckCanMoveSide();
     }
 
-    private void checkCanFall()
+    private void CheckCanFall()
     {
-        bool needToStop = false;
+        needToStop = false;
 
         for (int i = 0; i < blockData.tilePos.GetLength(0); i++)
         {
@@ -89,13 +91,18 @@ public class BlockController : MonoBehaviour
         }
         if (needToStop)
         {
-            //needToStop이 참이 되면 블럭 스폰 가능하게 하고 블럭이 떨어지지 못하게 함
+            //needToStop이 참이 되면 블럭 하강 중지
             blockData.falling = false;
+        }
+    }
+    public void CheckCanSpawn()
+    {
+        if (needToStop) {
+            //needToStop이 참이 되면 블럭 생산
             spawner.canSpawn = true;
         }
     }
-
-    private void checkCanMoveSide()
+    private void CheckCanMoveSide()
     {
         for (int i = 0; i < blockData.tilePos.GetLength(0); i++)
         {

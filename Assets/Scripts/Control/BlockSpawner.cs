@@ -10,6 +10,8 @@ public class BlockSpawner : MonoBehaviour
     public GameObject[] blockPrefab;
     //블럭 인스턴스 참조 변수
     public GameObject activatedBlock;
+    //생성된 블럭 리스트
+    public List<GameObject> blockList;
     //블럭 인덱스
     private int blockIdx = 0;
     //블럭 생성 x 좌표
@@ -50,7 +52,8 @@ public class BlockSpawner : MonoBehaviour
         }
         //블럭 생성 후 참조
         activatedBlock = Instantiate(blockPrefab[blockIdx]);
-        Debug.Log("블럭 생성");
+        //생성된 블럭을 블럭 리스트에 추가
+        blockList.Add(activatedBlock);
         //블럭 초기 위치 설정
         activatedBlock.transform.position = new Vector3(positionX, blockPrefab[blockIdx].transform.position.y);
     }

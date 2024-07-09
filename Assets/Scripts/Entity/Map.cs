@@ -138,6 +138,7 @@ public class Map : MonoBehaviour
                 Debug.Log("라인 클리어");
                 ClearLine(y);
             }
+            rowCount = 0;
         }
         //블럭 생산 가능 여부 체크
         controller.CheckCanSpawn();
@@ -157,7 +158,6 @@ public class Map : MonoBehaviour
                 if (tile.transform.position.y == rowNum) 
                 {
                     Destroy(tile);
-                    Debug.Log($"{tile.transform.position.y}행 삭제");
                 }
             }
         }
@@ -177,28 +177,53 @@ public class Map : MonoBehaviour
         //계층에 존재하는 블럭 순회
         foreach (GameObject block in blockList)
         {
+            Block blockData = block.GetComponent<Block>();
+            
             //블럭의 자식 오브젝트인 타일 목록 참조
             List<GameObject> tileList = GetTileList(block);
+            //타일이 블럭의 몇번째인지 표시
+            int tileCount = 0;
             //해당 블럭의 타일 순회
+            for (int i = 0; i < 4; i++)
+            {
+                /*타일 하나 제거 했을 때 블럭에는 그대로 배열 4개가 남아있는데 그거 해결해야함*/
+                if (blockData.tilePos[i,1] > rowNum) {
+                    blockData.tilePos[i, 1] -= 1;
+                    //모든 블럭들 y 좌표 -1
+                    block.transform.position = new Vector3(block.transform.position.x, block.transform.position.y - 1, block.transform.position.z);
+                }
+                
+            }
             foreach (GameObject tile in tileList)
             {
-                //클리어한 행 위에서부터 순회
-                for(int y = rowNum + 1; y < tileExist.GetLength(0); y++)
+                int tileXPos = (int)tile.transform.position.x;
+                int tileYPos = (int)tile.transform.position.y;
+                bool temp = false;
+
+                //맵 위치 갱신
+                if (tileYPos > 0)
                 {
-                    for(int x = 0; x < tileExist.GetLength(1); x++)
-                    {
-                        tileExist[y, x] = false;
-                    }
+                    temp = tileExist[tileYPos, tileXPos];
+                    tileExist[tileYPos, tileXPos] = false;
+                    Debug.Log($"Y:{tileYPos}, X:{tileXPos}");
+                    tileExist[tileYPos - 1, tileXPos] = temp;
                 }
+                tileCount++;
             }
+
+            
         }
     }
 
     //특정 블럭의 자식 오브젝트인 타일 목록을 반환하는 메서드
     private List<GameObject> GetTileList(GameObject block)
     {
+        int TESTCOUNT = 0;
         List<GameObject> tileList = new List<GameObject>();
-        for (int i = 0; i < block.transform.childCount; i++) { 
+        int childNum = block.transform.childCount;
+        TESTCOUNT++;
+        Debug.Log($"{childNum}----{TESTCOUNT}");
+        for (int i = 0; i < childNum; i++) { 
             Transform tileTransform = block.transform.GetChild(i);
             tileList.Add(tileTransform.gameObject);
         }
@@ -208,22 +233,7 @@ public class Map : MonoBehaviour
     //타일이 하나도 남지 않은 블록 삭제하기
     private void DestroyNullBlock()
     {
-
+        //blockList 수정
     }
 
-    //해당 열에서 비어있는 가장 낮은 y좌표 반환하는 메서드
-    private int LowestYPos(int x, int y)
-    {
-        int i = y;
-        //매개변수로 받은 y좌표부터 -1씩 내려오다가 바로 밑에 타일이 있으면 그 위치의 y좌표를 반환
-        for (; i > 0; i--) 
-        {
-            if (tileExist[i - 1, x])
-            {
-                Debug.Log("바로 밑에 타일 있음");
-                break;
-            }
-        }
-        return i; 
-    }
 }

@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Entity.meta
 guid: e89628fcad52e7b46a4fe689d222ba07
 folderAsset: yes
 DefaultImporter:
+========
+guid: 576b1a56b4086fb469e5cd7a4a05c37c
+PrefabImporter:
+>>>>>>>> parent of 68d64d1 (Environment Update):Assets/Prefabs/BackTile_05.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

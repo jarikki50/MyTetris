@@ -188,7 +188,6 @@ public class Map : MonoBehaviour
                     for(int x = 0; x < tileExist.GetLength(1); x++)
                     {
                         tileExist[y, x] = false;
-                        //LowestYPos 호출
                     }
                 }
             }
@@ -206,5 +205,25 @@ public class Map : MonoBehaviour
         return tileList;
     }
 
+    //타일이 하나도 남지 않은 블록 삭제하기
+    private void DestroyNullBlock()
+    {
 
+    }
+
+    //해당 열에서 비어있는 가장 낮은 y좌표 반환하는 메서드
+    private int LowestYPos(int x, int y)
+    {
+        int i = y;
+        //매개변수로 받은 y좌표부터 -1씩 내려오다가 바로 밑에 타일이 있으면 그 위치의 y좌표를 반환
+        for (; i > 0; i--) 
+        {
+            if (tileExist[i - 1, x])
+            {
+                Debug.Log("바로 밑에 타일 있음");
+                break;
+            }
+        }
+        return i; 
+    }
 }
